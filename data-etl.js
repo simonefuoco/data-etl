@@ -13,5 +13,3 @@ module.exports.transform = async (transformer, args)  => {
 module.exports.load = function (loader, args) {
     await loader(args);
 };
-
-module.exports = ETL;
