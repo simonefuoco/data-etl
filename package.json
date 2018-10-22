@@ -1,0 +1,32 @@
+{
+  "name": "data-etl",
+  "version": "1.0.0",
+  "description": "Simple ETL Tool for Node.js",
+  "main": "data-etl.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/simonefuoco/data-etl.git"
+  },
+  "keywords": [
+    "data",
+    "etl",
+    "sync",
+    "db",
+    "rest",
+    "api",
+    "webservice",
+    "synchronization",
+    "extract",
+    "transform",
+    "load"
+  ],
+  "author": "Simone Fuoco",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/simonefuoco/data-etl/issues"
+  },
+  "homepage": "https://github.com/simonefuoco/data-etl#readme"
+}
