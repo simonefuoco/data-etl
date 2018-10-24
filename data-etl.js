@@ -1,15 +1,27 @@
-module.exports.extract = async (importers, args) => {
-    let promises = [];
-    args.importers.forEach(importer => {
-        promises.push(importer.import(args));
-    });
-    await Promise.all(promises);
+/**
+ * data-etl module.
+ * @author Simone Fuoco <simofstudies@gmail.com>
+ * @module data-etl
+ * @see module:transform
+ */
+
+module.exports.ETL = function () {
+    this.extractor = null;
+    this.transformer = null;
+    this.queue = [];
+    this.loader = null;
 };
 
-module.exports.transform = async (transformer, args)  => {
-    await transformer(args);
+module.exports.ETL.prototype.extract = function (extractor, args) {
+    this.extractor = extractor(args);
 };
 
-module.exports.load = function (loader, args) {
-    await loader(args);
+module.exports.ETL.prototype.transform = function (transformer, args) {
+    const transformer = transformer(args);
+    this.transformer = this.transformer ? this.transformer.pipe(transformer) : transformer;
+    this.queue.push(transformer);
+};
+
+module.exports.ETL.prototype.load = function (loader, args) {
+    this.loader = loader(args);
 };
