@@ -52,7 +52,7 @@ class ETL
             const transformersConfig = loadJsonFile.sync(path.join(__dirname, 'config', 'transformers.json'));
             //require(path.join(__dirname, '..', transformersConfig[item.transformerName]))
             return {
-                transformerName: require(transformersConfig[item.transformersName]),
+                transformer: require(transformersConfig[item.transformersName]),
                 args: item.args
             };
         });
