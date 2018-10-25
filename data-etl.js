@@ -13,37 +13,43 @@ class ETL
         this.loaderInfo = {};
     }
 
-    async setExtractorStream(extractorName, args) {
+    setExtractorStream(extractorName, args) {
         const {loadJsonFile} = require('load-json-file');
         const path = require('path');
-        const extractorsConfig = await loadJsonFile(path.join(__dirname, 'config', 'extractors.json'));
-        const extractor = require(extractorsConfig[extractorName]);
-        this.extractorInfo = {
-            extractor,
-            args
-        };
+        loadJsonFile(path.join(__dirname, 'config', 'extractors.json'))
+        .then(extractorsConfig => {
+            const extractor = require(extractorsConfig[extractorName]);
+            this.extractorInfo = {
+                extractor,
+                args
+            };
+        });
     }
 
     async setLoaderStream(loaderName, args) {
         const {loadJsonFile} = require('load-json-file');
         const path = require('path');
-        const loadersConfig = await loadJsonFile(path.join(__dirname, 'config', 'loaders.json'));
-        const loader = require(loadersConfig[loaderName]);
-        this.loaderInfo = {
-            loader,
-            args
-        };
+        loadJsonFile(path.join(__dirname, 'config', 'loaders.json'))
+        .then(loadersConfig => {
+            const loader = require(loadersConfig[loaderName]);
+            this.loaderInfo = {
+                loader,
+                args
+            };
+        });
     }
 
     async setTransformerStreams(transformerInfos) {
         const {loadJsonFile} = require('load-json-file');
         const path = require('path');
         this.transformerInfos = transformerInfos.map(item => {
-            const transformersConfig = await loadJsonFile(path.join(__dirname, 'config', 'transformers.json'));
-            return {
-                transformerName: require(transformersConfig[item.transformerName]),
-                args: item.args
-            };
+            loadJsonFile(path.join(__dirname, 'config', 'transformers.json'))
+            .then(transformersConfig => {
+                return {
+                    transformerName: require(transformersConfig[item.transformerName]),
+                    args: item.args
+                };
+            });
         });
     }
 
