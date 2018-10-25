@@ -17,7 +17,7 @@ class ETL
         const loadJsonFile = require('load-json-file');
         const path = require('path');
         const extractorsConfig = loadJsonFile.sync(path.join(__dirname, 'config', 'extractors.json'));
-        const extractor = require(path.join(__dirname, '..', '..', extractorsConfig[extractorName]));
+        const extractor = require(path.join(__dirname, '..', extractorsConfig[extractorName]));
         this.extractorInfo = {
             extractor,
             args
@@ -28,7 +28,7 @@ class ETL
         const loadJsonFile = require('load-json-file');
         const path = require('path');
         const loadersConfig = loadJsonFile(path.join(__dirname, 'config', 'loaders.json'));
-        const loader = require(path.join(__dirname, '..', '..', loadersConfig[loaderName]));
+        const loader = require(path.join(__dirname, '..', loadersConfig[loaderName]));
         this.loaderInfo = {
             loader,
             args
@@ -41,7 +41,7 @@ class ETL
         this.transformerInfos = transformerInfos.map(item => {
             const transformersConfig = loadJsonFile(path.join(__dirname, 'config', 'transformers.json'));
             return {
-                transformerName: require(path.join(__dirname, '..', '..', transformersConfig[item.transformerName])),
+                transformerName: require(path.join(__dirname, '..', transformersConfig[item.transformerName])),
                 args: item.args
             };
         });
