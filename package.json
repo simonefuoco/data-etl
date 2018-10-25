@@ -1,6 +1,6 @@
 {
   "name": "data-etl",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Simple ETL Tool for Node.js",
   "main": "data-etl.js",
   "scripts": {
