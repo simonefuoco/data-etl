@@ -78,6 +78,8 @@ class ETL
             return streams;
         };
 
+        const stream = require('stream');
+
         stream.pipeline(
             openExtractorStream(),
             ...openTransformerStreams(),
