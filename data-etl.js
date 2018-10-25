@@ -14,42 +14,36 @@ class ETL
     }
 
     setExtractorStream(extractorName, args) {
-        const json = require('load-json-file');
+        const loadJsonFile = require('load-json-file');
         const path = require('path');
-        json.loadJsonFile(path.join(__dirname, 'config', 'extractors.json'))
-        .then(extractorsConfig => {
-            const extractor = require(extractorsConfig[extractorName]);
-            this.extractorInfo = {
-                extractor,
-                args
-            };
-        });
+        const extractorsConfig = loadJsonFile.sync(path.join(__dirname, 'config', 'extractors.json'));
+        const extractor = require(extractorsConfig[extractorName]);
+        this.extractorInfo = {
+            extractor,
+            args
+        };
     }
 
     async setLoaderStream(loaderName, args) {
-        const json = require('load-json-file');
+        const loadJsonFile = require('load-json-file');
         const path = require('path');
-        json.loadJsonFile(path.join(__dirname, 'config', 'loaders.json'))
-        .then(loadersConfig => {
-            const loader = require(loadersConfig[loaderName]);
-            this.loaderInfo = {
-                loader,
-                args
-            };
-        });
+        const loadersConfig = loadJsonFile(path.join(__dirname, 'config', 'loaders.json'));
+        const loader = require(loadersConfig[loaderName]);
+        this.loaderInfo = {
+            loader,
+            args
+        };
     }
 
     async setTransformerStreams(transformerInfos) {
-        const json = require('load-json-file');
+        const loadJsonFile = require('load-json-file');
         const path = require('path');
         this.transformerInfos = transformerInfos.map(item => {
-            json.loadJsonFile(path.join(__dirname, 'config', 'transformers.json'))
-            .then(transformersConfig => {
-                return {
-                    transformerName: require(transformersConfig[item.transformerName]),
-                    args: item.args
-                };
-            });
+            const transformersConfig = loadJsonFile(path.join(__dirname, 'config', 'transformers.json'));
+            return {
+                transformerName: require(transformersConfig[item.transformerName]),
+                args: item.args
+            };
         });
     }
 
