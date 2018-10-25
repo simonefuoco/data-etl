@@ -13,7 +13,7 @@ class ETL
         this.loaderInfo = {};
     }
 
-    setExtractorStream(extractorName, args) {
+    async setExtractorStream(extractorName, args) {
         const {loadJsonFile} = require('load-json-file');
         const path = require('path');
         const extractorsConfig = await loadJsonFile(path.join(__dirname, 'config', 'extractors.json'));
@@ -24,7 +24,7 @@ class ETL
         };
     }
 
-    setLoaderStream(loaderName, args) {
+    async setLoaderStream(loaderName, args) {
         const {loadJsonFile} = require('load-json-file');
         const path = require('path');
         const loadersConfig = await loadJsonFile(path.join(__dirname, 'config', 'loaders.json'));
@@ -35,7 +35,7 @@ class ETL
         };
     }
 
-    setTransformerStreams(transformerInfos) {
+    async setTransformerStreams(transformerInfos) {
         const {loadJsonFile} = require('load-json-file');
         const path = require('path');
         this.transformerInfos = transformerInfos.map(item => {
