@@ -75,3 +75,5 @@ class ETL
         );
     }
 }
+
+module.exports = ETL;
