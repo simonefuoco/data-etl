@@ -5,6 +5,14 @@
  * @see module:transform
  */
 
+
+// const modules = {
+//     "objmapper": require("data-etl-object-mapper"),
+//     "generic": require("data-etl-generic-transformer"),
+//     "psws": require("data-etl-prestashop-webservice"),
+//     "mssql": require("data-etl-mssql")
+// };
+
 class ETL
 {
     constructor() {
@@ -14,10 +22,11 @@ class ETL
     }
 
     setExtractorStream(extractorName, args) {
-        const {loadJsonFile} = require('load-json-file');
+        const loadJsonFile = require('load-json-file');
         const path = require('path');
-        const extractorsConfig = await loadJsonFile(path.join(__dirname, 'config', 'extractors.json'));
+        const extractorsConfig = loadJsonFile.sync(path.join(__dirname, 'config', 'extractors.json'));
         const extractor = require(extractorsConfig[extractorName]);
+        //const extractor = modules[extractorsConfig[extractorName]];
         this.extractorInfo = {
             extractor,
             args
@@ -25,10 +34,11 @@ class ETL
     }
 
     setLoaderStream(loaderName, args) {
-        const {loadJsonFile} = require('load-json-file');
+        const loadJsonFile = require('load-json-file');
         const path = require('path');
-        const loadersConfig = await loadJsonFile(path.join(__dirname, 'config', 'loaders.json'));
+        const loadersConfig = loadJsonFile.sync(path.join(__dirname, 'config', 'loaders.json'));
         const loader = require(loadersConfig[loaderName]);
+        //const loader = modules[loadersConfig[loaderName]];
         this.loaderInfo = {
             loader,
             args
@@ -36,12 +46,13 @@ class ETL
     }
 
     setTransformerStreams(transformerInfos) {
-        const {loadJsonFile} = require('load-json-file');
+        const loadJsonFile = require('load-json-file');
         const path = require('path');
         this.transformerInfos = transformerInfos.map(item => {
-            const transformersConfig = await loadJsonFile(path.join(__dirname, 'config', 'transformers.json'));
+            const transformersConfig = loadJsonFile.sync(path.join(__dirname, 'config', 'transformers.json'));
+            //require(path.join(__dirname, '..', transformersConfig[item.transformerName]))
             return {
-                transformerName: require(transformersConfig[item.transformerName]),
+                transformer: require(transformersConfig[item.transformersName]),
                 args: item.args
             };
         });
@@ -66,6 +77,8 @@ class ETL
             }
             return streams;
         };
+
+        const stream = require('stream');
 
         stream.pipeline(
             openExtractorStream(),

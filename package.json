@@ -1,6 +1,6 @@
 {
   "name": "data-etl",
-  "version": "1.0.2",
+  "version": "1.0.17",
   "description": "Simple ETL Tool for Node.js",
   "main": "data-etl.js",
   "scripts": {
@@ -30,8 +30,9 @@
   },
   "homepage": "https://github.com/simonefuoco/data-etl#readme",
   "dependencies": {
-    "data-etl-mssql": "^1.0.1",
-    "data-etl-object-mapper": "^1.0.0",
+    "data-etl-generic-transformer": "^1.0.0",
+    "data-etl-mssql": "^1.0.2",
+    "data-etl-object-mapper": "^1.0.1",
     "data-etl-prestashop-webservice": "^1.0.0",
     "load-json-file": "^5.1.0"
   }
