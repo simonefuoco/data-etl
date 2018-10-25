@@ -33,10 +33,10 @@ class ETL
         };
     }
 
-    async setLoaderStream(loaderName, args) {
+    setLoaderStream(loaderName, args) {
         const loadJsonFile = require('load-json-file');
         const path = require('path');
-        const loadersConfig = loadJsonFile(path.join(__dirname, 'config', 'loaders.json'));
+        const loadersConfig = loadJsonFile.sync(path.join(__dirname, 'config', 'loaders.json'));
         const loader = require(loadersConfig[loaderName]);
         //const loader = modules[loadersConfig[loaderName]];
         this.loaderInfo = {
@@ -45,11 +45,11 @@ class ETL
         };
     }
 
-    async setTransformerStreams(transformerInfos) {
+    setTransformerStreams(transformerInfos) {
         const loadJsonFile = require('load-json-file');
         const path = require('path');
         this.transformerInfos = transformerInfos.map(item => {
-            const transformersConfig = loadJsonFile(path.join(__dirname, 'config', 'transformers.json'));
+            const transformersConfig = loadJsonFile.sync(path.join(__dirname, 'config', 'transformers.json'));
             //require(path.join(__dirname, '..', transformersConfig[item.transformerName]))
             return {
                 transformerName: require(transformersConfig[item.transformersName]),
