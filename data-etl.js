@@ -14,9 +14,9 @@ class ETL
     }
 
     setExtractorStream(extractorName, args) {
-        const {loadJsonFile} = require('load-json-file');
+        const {loadJsonFileModule} = require('load-json-file');
         const path = require('path');
-        loadJsonFile(path.join(__dirname, 'config', 'extractors.json'))
+        loadJsonFileModule.loadJsonFile(path.join(__dirname, 'config', 'extractors.json'))
         .then(extractorsConfig => {
             const extractor = require(extractorsConfig[extractorName]);
             this.extractorInfo = {
@@ -27,9 +27,9 @@ class ETL
     }
 
     async setLoaderStream(loaderName, args) {
-        const {loadJsonFile} = require('load-json-file');
+        const {loadJsonFileModule} = require('load-json-file');
         const path = require('path');
-        loadJsonFile(path.join(__dirname, 'config', 'loaders.json'))
+        loadJsonFileModule.loadJsonFile(path.join(__dirname, 'config', 'loaders.json'))
         .then(loadersConfig => {
             const loader = require(loadersConfig[loaderName]);
             this.loaderInfo = {
@@ -40,10 +40,10 @@ class ETL
     }
 
     async setTransformerStreams(transformerInfos) {
-        const {loadJsonFile} = require('load-json-file');
+        const {loadJsonFileModule} = require('load-json-file');
         const path = require('path');
         this.transformerInfos = transformerInfos.map(item => {
-            loadJsonFile(path.join(__dirname, 'config', 'transformers.json'))
+            loadJsonFileModule.loadJsonFile(path.join(__dirname, 'config', 'transformers.json'))
             .then(transformersConfig => {
                 return {
                     transformerName: require(transformersConfig[item.transformerName]),
