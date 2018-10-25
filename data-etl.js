@@ -6,12 +6,12 @@
  */
 
 
-const modules = {
-    "objmapper": require("data-etl-object-mapper"),
-    "generic": require("data-etl-generic-transformer"),
-    "psws": require("data-etl-prestashop-webservice"),
-    "mssql": require("data-etl-mssql")
-};
+// const modules = {
+//     "objmapper": require("data-etl-object-mapper"),
+//     "generic": require("data-etl-generic-transformer"),
+//     "psws": require("data-etl-prestashop-webservice"),
+//     "mssql": require("data-etl-mssql")
+// };
 
 class ETL
 {
@@ -25,8 +25,8 @@ class ETL
         const loadJsonFile = require('load-json-file');
         const path = require('path');
         const extractorsConfig = loadJsonFile.sync(path.join(__dirname, 'config', 'extractors.json'));
-        //const extractor = require(path.join(__dirname, '..', extractorsConfig[extractorName]));
-        const extractor = modules[extractorsConfig[extractorName]];
+        const extractor = require(extractorsConfig[extractorName]);
+        //const extractor = modules[extractorsConfig[extractorName]];
         this.extractorInfo = {
             extractor,
             args
@@ -37,8 +37,8 @@ class ETL
         const loadJsonFile = require('load-json-file');
         const path = require('path');
         const loadersConfig = loadJsonFile(path.join(__dirname, 'config', 'loaders.json'));
-        //const loader = require(path.join(__dirname, '..', loadersConfig[loaderName]));
-        const loader = modules[loadersConfig[loaderName]];
+        const loader = require(loadersConfig[loaderName]);
+        //const loader = modules[loadersConfig[loaderName]];
         this.loaderInfo = {
             loader,
             args
@@ -52,7 +52,7 @@ class ETL
             const transformersConfig = loadJsonFile(path.join(__dirname, 'config', 'transformers.json'));
             //require(path.join(__dirname, '..', transformersConfig[item.transformerName]))
             return {
-                transformerName: modules[transformersConfig[item.transformerName]],
+                transformerName: require(transformersConfig[item.transformersName]),
                 args: item.args
             };
         });
