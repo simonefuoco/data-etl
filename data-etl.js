@@ -5,23 +5,75 @@
  * @see module:transform
  */
 
-module.exports.ETL = function () {
-    this.extractor = null;
-    this.transformer = null;
-    this.queue = [];
-    this.loader = null;
-};
+class ETL
+{
+    constructor() {
+        this.extractorInfo = {};
+        this.transformerInfos = {};
+        this.loaderInfo = {};
+    }
 
-module.exports.ETL.prototype.extract = function (extractor, args) {
-    this.extractor = extractor(args);
-};
+    setExtractorStream(extractorName, args) {
+        const {loadJsonFile} = require('load-json-file');
+        const path = require('path');
+        const extractorsConfig = await loadJsonFile(path.join(__dirname, 'config', 'extractors.json'));
+        const extractor = require(extractorsConfig[extractorName]);
+        this.extractorInfo = {
+            extractor,
+            args
+        };
+    }
 
-module.exports.ETL.prototype.transform = function (transformer, args) {
-    const transformer = transformer(args);
-    this.transformer = this.transformer ? this.transformer.pipe(transformer) : transformer;
-    this.queue.push(transformer);
-};
+    setLoaderStream(loaderName, args) {
+        const {loadJsonFile} = require('load-json-file');
+        const path = require('path');
+        const loadersConfig = await loadJsonFile(path.join(__dirname, 'config', 'loaders.json'));
+        const loader = require(loadersConfig[loaderName]);
+        this.loaderInfo = {
+            loader,
+            args
+        };
+    }
 
-module.exports.ETL.prototype.load = function (loader, args) {
-    this.loader = loader(args);
-};
+    setTransformerStreams(transformerInfos) {
+        const {loadJsonFile} = require('load-json-file');
+        const path = require('path');
+        this.transformerInfos = transformerInfos.map(item => {
+            const transformersConfig = await loadJsonFile(path.join(__dirname, 'config', 'transformers.json'));
+            return {
+                transformerName: require(transformersConfig[item.transformerName]),
+                args: item.args
+            };
+        });
+    }
+
+    startStream() {
+        const openExtractorStream = () => {
+            this.extractorInfo.stream = this.extractorInfo.extractor.extract(this.extractorInfo.args);
+            return this.extractorInfo.stream;
+        };
+
+        const openLoaderStream = () => {
+            this.loaderInfo.stream = this.loaderInfo.loader.load(this.loaderInfo.args);
+            return this.loaderInfo.stream;
+        };
+
+        const openTransformerStreams = () => {
+            const streams = [];
+            for (const transformerInfo of this.transformerInfos) {
+                transformerInfo.stream = transformerInfo.transformer.transform(transformerInfo.args);
+                streams.push(transformerInfo.stream);
+            }
+            return streams;
+        };
+
+        stream.pipeline(
+            openExtractorStream(),
+            ...openTransformerStreams(),
+            openLoaderStream(),
+            (err) => {}
+        );
+    }
+}
+
+module.exports = ETL;

@@ -1,0 +1,4 @@
+{
+    "objmapper": "data-etl-object-mapper",
+    "latin-normalizer": "data-etl-latin-normalizer"
+}
