@@ -32,7 +32,7 @@
   "dependencies": {
     "data-etl-generic-transformer": "^1.0.0",
     "data-etl-mssql": "^1.0.2",
-    "data-etl-object-mapper": "^1.0.0",
+    "data-etl-object-mapper": "^1.0.1",
     "data-etl-prestashop-webservice": "^1.0.0",
     "load-json-file": "^5.1.0"
   }
