@@ -19,7 +19,7 @@ class Cache {
 
     createOne(doc) {
         let self = this;
-        this.counter++;
+        this._counter++;
         return new Promise((resolve, reject) => {
             self.getCollection()
             .then((client, col) => {
@@ -55,7 +55,7 @@ class Cache {
     readAndDeleteOne(obj) {
         let self = this;
         let filter = obj ? obj : {};
-        this.counter--;
+        this._counter--;
         return new Promise((resolve, reject) => {
             self.getCollection()
             .then((client, col) => {
