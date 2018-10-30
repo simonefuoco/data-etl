@@ -101,7 +101,7 @@ class Flow {
         let states = [];
         return new Promise((resolve, reject) => {
             self.extractors.map((item) => {
-                item.once('data-etl-extractor-ready', () => {
+                item.extractor.once('data-etl-extractor-ready', () => {
                     states.push(true);
                     if (states.length === self.extractors.length) {
                         resolve();
