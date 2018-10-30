@@ -1,6 +1,6 @@
 {
   "name": "data-etl",
-  "version": "1.0.31",
+  "version": "1.0.32",
   "description": "Simple ETL Tool for Node.js",
   "main": "data-etl.js",
   "scripts": {
@@ -32,7 +32,7 @@
   "dependencies": {
     "data-etl-generic-aggregator": "^1.0.0",
     "data-etl-generic-transformer": "^1.0.1",
-    "data-etl-mssql": "^1.0.9",
+    "data-etl-mssql": "^1.0.10",
     "data-etl-object-mapper": "^1.0.1",
     "data-etl-prestashop-webservice": "^1.0.2",
     "load-json-file": "^5.1.0",
