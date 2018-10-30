@@ -56,7 +56,7 @@ class Flow {
 
     setExtractors(extractors) {
         let self = this;
-        this.extractors = extractors.map(item => {
+        this._extractors = extractors.map(item => {
             let {Extractor} = require(self.config.extractors[item.name]);
             let extractor = new Extractor(item.args);
             return {
@@ -68,7 +68,7 @@ class Flow {
 
     setTransformers(transformers) {
         let self = this;
-        this.transformers = transformers.map(item => {
+        this._transformers = transformers.map(item => {
             let {Transformer} = require(self.config.transformers[item.name]);
             let transformer = new Transformer(item.args);
             return {
@@ -80,7 +80,7 @@ class Flow {
 
     setLoader(loaderName, args) {
         const {Loader} = require(this.config.loaders[loaderName]);
-        this.loader = {
+        this._loader = {
             loader: new Loader(args),
             name: loaderName
         };
@@ -90,7 +90,7 @@ class Flow {
         const {Aggregator} = require(this.config.aggregators[aggregatorName]);
         let argsClone = _.cloneDeepWith(args);
         argsClone.extractors = this.extractors;
-        this.aggregator = {
+        this._aggregator = {
             aggregator: new Aggregator(argsClone),
             name: aggregatorName
         };
