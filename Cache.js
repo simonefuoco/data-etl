@@ -40,7 +40,7 @@ class Cache {
     getCollection() {
         let self = this;
         return new Promise((resolve, reject) => {
-            MongoClient.connect(self.url)
+            MongoClient.connect(self.url, {useNewUrlParser: true})
             .then((client) => {
                 const db = client.db(self.dbname);
                 const col = db.collection(self.colName);
