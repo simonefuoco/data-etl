@@ -55,25 +55,27 @@ class Flow {
     }
 
     setExtractors(extractors) {
+        let self = this;
         this.extractors = extractors.map(item => {
-            let {Extractor} = require(this.config.extractors[item.name]);
+            let {Extractor} = require(self.config.extractors[item.name]);
             let extractor = new Extractor(item.args);
             return {
                 extractor,
                 name: item.name
             };
-        }).bind(this);
+        });
     }
 
     setTransformers(transformers) {
+        let self = this;
         this.transformers = transformers.map(item => {
-            let {Transformer} = require(this.config.transformers[item.name]);
+            let {Transformer} = require(self.config.transformers[item.name]);
             let transformer = new Transformer(item.args);
             return {
                 transformer,
                 name: item.name
             };
-        }).bind(this);
+        });
     }
 
     setLoader(loaderName, args) {
