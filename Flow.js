@@ -107,7 +107,7 @@ class Flow {
                         resolve();
                     }
                 });
-                item.init();
+                item.extractor.init();
             });
         });
     }
