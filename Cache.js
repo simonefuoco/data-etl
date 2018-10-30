@@ -42,9 +42,9 @@ class Cache {
         return new Promise((resolve, reject) => {
             MongoClient.connect(self.url, {useNewUrlParser: true})
             .then((client) => {
-                const db = client.db(self.dbName);
-                const col = db.collection(self.colName);
-                resolve(client, col);
+                // const db = client.db(self.dbName);
+                // const col = db.collection(self.colName);
+                resolve(client, client.db(self.dbName).collection(self.colName));
             })
             .catch((err) => {
                 reject(new Error("error cache connection"));
