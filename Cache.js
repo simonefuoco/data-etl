@@ -5,7 +5,7 @@ class Cache {
     constructor(args) {
         this._counter = 0;
         this.url = args.url;
-        this.dbName = args.dbname;
+        this.dbName = args.dbName;
         this.colName = args.colName;
     }
 
@@ -42,7 +42,7 @@ class Cache {
         return new Promise((resolve, reject) => {
             MongoClient.connect(self.url, {useNewUrlParser: true})
             .then((client) => {
-                const db = client.db(self.dbname);
+                const db = client.db(self.dbName);
                 const col = db.collection(self.colName);
                 resolve(client, col);
             })
