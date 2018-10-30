@@ -22,12 +22,12 @@ class Cache {
         this._counter++;
         return new Promise((resolve, reject) => {
             self.getCollection()
-            .then((client, col) => {
-                col.insertOne(doc, (err, result) => {
+            .then((res) => {
+                res.col.insertOne(doc, (err, result) => {
                     if(err || !result.insertedCount) {
                         reject(new Error("error cache create"));
                     }
-                    client.close();
+                    res.client.close();
                     resolve();
                 });
             })
@@ -42,9 +42,14 @@ class Cache {
         return new Promise((resolve, reject) => {
             MongoClient.connect(self.url, {useNewUrlParser: true})
             .then((client) => {
-                // const db = client.db(self.dbName);
-                // const col = db.collection(self.colName);
-                resolve(client, client.db(self.dbName).collection(self.colName));
+                const db = client.db(self.dbName);
+                const col = db.collection(self.colName);
+                let res = {
+                    client,
+                    db,
+                    col
+                };
+                resolve(res);
             })
             .catch((err) => {
                 reject(new Error("error cache connection"));
@@ -58,12 +63,12 @@ class Cache {
         this._counter--;
         return new Promise((resolve, reject) => {
             self.getCollection()
-            .then((client, col) => {
-                col.findOneAndDelete(filter, (err, result) => {
+            .then((res) => {
+                res.col.findOneAndDelete(filter, (err, result) => {
                     if (err || !(result.ok === 1)) {
                         reject(new Error("error find one and delete"));
                     } else {
-                        client.close();
+                        res.client.close();
                         resolve(result.value);
                     }
                 });
