@@ -1,2 +1,2 @@
-module.exports.Flow = require('./Flow');
-module.exports.Cache = require('./Cache');
+module.exports.Flow = require('./Flow').Flow;
+module.exports.Cache = require('./Cache').Cache;
