@@ -1,3 +1,4 @@
 {
-    "mssql": "data-etl-mssql"
+    "mssql": "data-etl-mssql",
+    "psws": "data-etl-prestashop-webservice"
 }
