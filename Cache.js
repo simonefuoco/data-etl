@@ -5,7 +5,7 @@ class Cache {
     constructor(args) {
         this._counter = 0;
         this.url = args.url;
-        this.dbname = args.dbname;
+        this.dbName = args.dbname;
         this.colName = args.colName;
     }
 
