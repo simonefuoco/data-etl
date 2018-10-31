@@ -121,7 +121,7 @@ class Flow {
             for (const transf of self.transformers) {
                 obj = await transf.transformer.transform(obj);
             }
-            let isLoaded = await self.loader.load(obj);
+            let isLoaded = await self.loader.loader.load(obj);
             if (!isLoaded) throw new Error("run something not loaded");
 
             cond = await this.areExtractorsEmpty();
