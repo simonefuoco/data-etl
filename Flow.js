@@ -117,13 +117,13 @@ class Flow {
 
         let cond = await this.areExtractorsEmpty();
         while (!cond) {
-            let obj = self.aggregator.aggregate()
+            let obj = await self.aggregator.aggregate()
             for (const transf of self.transformers) {
-                obj = transf.transformer.transform(obj);
+                obj = await transf.transformer.transform(obj);
             }
             let isLoaded = await self.loader.load(obj);
             if (!isLoaded) throw new Error("run something not loaded");
-            
+
             cond = await this.areExtractorsEmpty();
         }
     }
