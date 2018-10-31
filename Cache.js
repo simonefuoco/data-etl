@@ -3,23 +3,29 @@ const {MongoClient} = require('mongodb');
 class Cache {
 
     constructor(args) {
-        this._counter = 0;
         this.url = args.url;
         this.dbName = args.dbName;
         this.colName = args.colName;
     }
 
-    get counter() {
-        return this._counter;
-    }
-
-    get isEmpty() {
-        return this.counter === 0;
+    count() {
+        let self = this;
+        return new Promise((resolve, reject) => {
+            self.getCollection()
+            .then((res) => {
+                res.col.countDocuments({}, (err, result) => {
+                    if(err) reject(new Error("cache count error"));
+                    resolve(result);
+                });
+            })
+            .catch((err) => {
+                reject(new Error("cache count connection error"));
+            });
+        });
     }
 
     createOne(doc) {
         let self = this;
-        this._counter++;
         return new Promise((resolve, reject) => {
             self.getCollection()
             .then((res) => {
@@ -60,7 +66,6 @@ class Cache {
     readAndDeleteOne(obj) {
         let self = this;
         let filter = obj ? obj : {};
-        this._counter--;
         return new Promise((resolve, reject) => {
             self.getCollection()
             .then((res) => {

@@ -112,32 +112,43 @@ class Flow {
         });
     }
 
-    run() {
+    async run() {
         let self = this;
-        return new Promise((resolve, reject) => {
-            while (!self.areExtractorsEmpty) {
-                let obj = self.aggregator.aggregate()
-                for (const transf of self.transformers) {
-                    obj = transf.transformer.transform(obj);
-                }
-                self.loader.load(obj)
-                .then(resolve)
-                .catch((err) => {
-                    reject(new Error("error run flow"));
-                });
+
+        let cond = await this.areExtractorsEmpty();
+        while (!cond) {
+            let obj = self.aggregator.aggregate()
+            for (const transf of self.transformers) {
+                obj = transf.transformer.transform(obj);
             }
-        });
+            let isLoaded = await self.loader.load(obj);
+            if (!isLoaded) throw new Error("run something not loaded");
+            
+            cond = await this.areExtractorsEmpty();
+        }
     }
 
-    get areExtractorsEmpty() {
+    areExtractorsEmpty() {
+        let self = this;
         let counters = [];
-        for (const ext of this.extractors) {
-            counters.push(ext.extractor.cache.counter);
-        }
-        let cond = counters.reduce((acc, value) => {
-            return acc + value;
-        }, 0);
-        return cond === 0;
+        let promises = [];
+
+        return new Promise((resolve, reject) => {
+            for (const ext of self.extractors) {
+                promises.push(ext.extractor.cache.count());
+            }
+            Promise.all(promises)
+            .then((values) => {
+                for (const value of values) {
+                    counters.push(value);
+                }
+                let cond = counters.reduce((acc, value) => acc + value, 0);
+                resolve(cond === 0);
+            })
+            .catch((err) => {
+                reject(new Error("error areExtractorsEmpty in flow"));
+            });
+        });
     }
 }
 
