@@ -117,7 +117,7 @@ class Flow {
 
         let cond = await this.areExtractorsEmpty();
         while (!cond) {
-            let obj = await self.aggregator.aggregate()
+            let obj = await self.aggregator.aggregate();
             for (const transf of self.transformers) {
                 obj = await transf.transformer.transform(obj);
             }
