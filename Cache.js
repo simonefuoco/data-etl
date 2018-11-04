@@ -74,7 +74,7 @@ class Cache {
                         reject(new Error("error find one and delete"));
                     } else {
                         res.client.close();
-                        let xmlObj = JSON.parse(result.value);
+                        let xmlObj = JSON.parse(result.value.jsonDoc);
                         //delete res['_id'];
                         resolve(xmlObj);
                     }
