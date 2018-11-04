@@ -57,7 +57,15 @@ class Flow {
     setExtractors(extractors) {
         let self = this;
         this._extractors = extractors.map(item => {
-            let {Extractor} = require(self.config.extractors[item.name]);
+
+            let Extractor;
+
+            if (item.extractor) {
+                Extractor = item.extractor;
+            } else {
+                Extractor = require(self.config.extractors[item.name]).Extractor;
+            }
+
             let extractor = new Extractor(item.args);
             return {
                 extractor,
@@ -69,7 +77,15 @@ class Flow {
     setTransformers(transformers) {
         let self = this;
         this._transformers = transformers.map(item => {
-            let {Transformer} = require(self.config.transformers[item.name]);
+
+            let Transformer;
+
+            if (item.transformer) {
+                Transformer = item.transformer;
+            } else {
+                Transformer = require(self.config.transformers[item.name]).Transformer;
+            }
+
             let transformer = new Transformer(item.args);
             return {
                 transformer,
@@ -78,16 +94,32 @@ class Flow {
         });
     }
 
-    setLoader(loaderName, args) {
-        const {Loader} = require(this.config.loaders[loaderName]);
+    setLoader(loaderName, args, loader) {
+
+        let Loader;
+
+        if (loader) {
+            Loader = loader;
+        } else {
+            Loader = require(this.config.loaders[loaderName]).Loader;
+        }
+
         this._loader = {
             loader: new Loader(args),
             name: loaderName
         };
     }
 
-    setAggregator(aggregatorName, args) {
-        const {Aggregator} = require(this.config.aggregators[aggregatorName]);
+    setAggregator(aggregatorName, args, aggregator) {
+
+        let Aggregator;
+
+        if (aggregator) {
+            Aggregator = aggregator;
+        } else {
+            Aggregator = require(this.config.aggregators[aggregatorName]).Aggregator;
+        }
+
         let argsClone = _.cloneDeepWith(args);
         argsClone.extractors = this.extractors;
         this._aggregator = {

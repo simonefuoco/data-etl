@@ -74,6 +74,7 @@ class Cache {
                         reject(new Error("error find one and delete"));
                     } else {
                         res.client.close();
+                        delete result.value['_id'];
                         resolve(result.value);
                     }
                 });
