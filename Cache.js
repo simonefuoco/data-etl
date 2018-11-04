@@ -29,7 +29,7 @@ class Cache {
         return new Promise((resolve, reject) => {
             self.getCollection()
             .then((res) => {
-                res.col.insertOne(doc, (err, result) => {
+                res.col.insertOne({jsonDoc: JSON.stringify(doc)}, (err, result) => {
                     if(err || !result.insertedCount) {
                         reject(new Error("error cache create"));
                     }
@@ -74,8 +74,9 @@ class Cache {
                         reject(new Error("error find one and delete"));
                     } else {
                         res.client.close();
-                        delete result.value['_id'];
-                        resolve(result.value);
+                        let res = JSON.parse(result.value);
+                        //delete res['_id'];
+                        resolve(res);
                     }
                 });
             })
