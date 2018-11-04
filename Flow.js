@@ -47,11 +47,11 @@ class Flow {
     }
 
     set loader(loaderInfo) {
-        this.setLoader(loaderInfo.name, loaderInfo.args);
+        this.setLoader(loaderInfo.name, loaderInfo.args, loaderInfo.loader);
     }
 
     set aggregator(aggregatorInfo) {
-        this.setAggregator(aggregatorInfo.name, aggregatorInfo.args);
+        this.setAggregator(aggregatorInfo.name, aggregatorInfo.args, aggregatorInfo.aggregator);
     }
 
     setExtractors(extractors) {
