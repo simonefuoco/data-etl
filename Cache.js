@@ -74,9 +74,9 @@ class Cache {
                         reject(new Error("error find one and delete"));
                     } else {
                         res.client.close();
-                        let res = JSON.parse(result.value);
+                        let xmlObj = JSON.parse(result.value);
                         //delete res['_id'];
-                        resolve(res);
+                        resolve(xmlObj);
                     }
                 });
             })
