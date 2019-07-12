@@ -35,7 +35,7 @@
     "data-etl-mssql": "^1.0.13",
     "data-etl-object-mapper": "^1.0.1",
     "data-etl-prestashop-webservice": "^1.0.13",
-    "load-json-file": "^5.1.0",
+    "load-json-file": "^6.2.0",
     "lodash": "^4.17.11",
     "mongodb": "^3.1.8"
   }
